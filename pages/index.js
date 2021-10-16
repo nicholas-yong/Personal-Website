@@ -14,8 +14,8 @@ export default function Home() {
           </Head>
 
           <main>
-            <Grid w = {'100%'} h = {'100%'} templateRows = 'repeat(10, 1fr)' templateColumns = 'repeat(10, 1fr)'>
-              <GridItem colSpan = {2} rowSpan = {2}>
+            <Grid w = {'100%'} h = {'100%'} templateRows = 'repeat(10, minmax(100px, 1fr))' templateColumns = 'repeat(10, minmax(100px, 1fr))'>
+              <GridItem  colStart = {1} colEnd = {3} rowStart = {1} rowEnd = {-1}>
                 <NavBar/>
               </GridItem>
             </Grid>
