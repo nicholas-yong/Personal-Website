@@ -1,7 +1,7 @@
 export interface BlogItem {
-  id: number;
-  title: string;
-  author: string;
-  mainPicture: string; // url of the main picture to serve
-  teaser: string;
+	id: number
+	title: string
+	mainPicture: string // url of the main picture to serve
+	teaser: string
+	publicationDate: number // unix timestamp in numbers
 }
