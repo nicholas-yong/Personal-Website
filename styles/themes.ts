@@ -1,9 +1,6 @@
 import { extendTheme } from "@chakra-ui/react"
 
-// Need to add the following defaults for conformity..
-// Margin and padding breakpoints
-// Colors
-
+// Chakra Theme
 export const defaultTheme = extendTheme({
 	components: {
 		Link: {

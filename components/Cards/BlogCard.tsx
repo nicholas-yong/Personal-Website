@@ -11,15 +11,7 @@ interface BlogCardProps {
 
 export const BlogCard: React.FC<BlogCardProps> = ({ blogItem }) => {
 	// The size of the image should be proportionate both based on the current viewport - as well as a possible multipler based on what type of card or collection it is currently in.
-	const exampleObject: BlogItem = {
-		id: 1,
-		title: "test",
-		mainPicture: "www.test.com", // url of the main picture to serve
-		teaser: "HEY MA",
-		publicationDate: 12312312312
-	}
-
-	const cardItem = blogItem || exampleObject
+	const cardItem = blogItem
 
 	return (
 		<Flex
