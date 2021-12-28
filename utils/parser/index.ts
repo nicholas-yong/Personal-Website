@@ -5,9 +5,12 @@ const parseParagraph = (text: string): ParagraphBlock =>
 {
     const paragraphRegex = new RegExp('(?:\*{2}|\_{2})*\w+(?: \w+)*(?:\*{2}|\__|\*|\_)*')
 
-    let result: 
-
     const result = text.split(paragraphRegex)
+
+    result.forEach((block) =>
+    {
+        
+    })
     
 }
 
@@ -21,7 +24,7 @@ export const parseMarkdown = async (fileLocation: string): Array<MarkdownBlock> 
     })
 
     // Go through each line in the content
-    const transformedContent = fileContent.split(/[\n\r]+/g).filter((line) => line.trim())
+    const transformedContent = fileContent.split(/[\n\r]+/g).filter((line) => line.trim()).map((trimmedLine) =>
     {
         // Now that we've split it on a per line basis
         const content: ParagraphBlock = {
