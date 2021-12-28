@@ -1,23 +1,20 @@
-import { Grid, GridItem } from "@chakra-ui/react"
+import { Box } from "@chakra-ui/react"
 import React from "react"
-import { NavBar } from "../NavBar"
-import { MainBar } from '../MainBar'
+import { Page } from "../Page"
 
 export const Site: React.FC = () => {
 	return (
-		<Grid
-			w={"100vw"}
-			h={"100vh"}
-			templateRows="repeat(10, 1fr)"
-			templateColumns="repeat(10, 1fr)"
-			backgroundColor={"gray.300"}
-		>
-			<GridItem>
-				<MainBar />
-			</GridItem>
-			<GridItem colSpan={2} rowSpan={2}>
-				<NavBar />
-			</GridItem>
-		</Grid>
+		<Box w={"100vw"} h={"100vh"} backgroundColor={"gray.300"}>
+			<Box
+				w={"60vw"}
+				margin={"auto"}
+				position={"relative"}
+				top={"8vw"}
+				className="site-page-container"
+				h={"100vh"}
+			>
+				<Page />
+			</Box>
+		</Box>
 	)
 }

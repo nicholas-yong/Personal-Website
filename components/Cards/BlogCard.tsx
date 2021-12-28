@@ -43,7 +43,12 @@ export const BlogCard: React.FC<BlogCardProps> = ({ blogItem }) => {
 					{cardItem.title}
 				</Text>
 				<Flex />
-				<Image src={cardItem.mainPicture} alt="Logo"></Image>
+				<Image
+					src={cardItem.mainPicture}
+					width={150}
+					height={150}
+					alt="Logo"
+				></Image>
 				<Flex
 					flexDirection={"column"}
 					gridGap={"4"}

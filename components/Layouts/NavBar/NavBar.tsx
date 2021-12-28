@@ -11,7 +11,6 @@ export const NavBar: React.FC = () => {
 
 	return (
 		<Flex
-			position={"fixed"}
 			h={"90%"}
 			marginLeft={"10"}
 			alignItems={"center"}
