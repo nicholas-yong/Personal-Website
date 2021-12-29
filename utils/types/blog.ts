@@ -5,3 +5,5 @@ export interface BlogItem {
 	teaser: string
 	publicationDate: number // unix timestamp in numbers
 }
+
+export type BlogTags = 'food' | 'coding' | 'stories' | 'general' | 'anime'
