@@ -1,0 +1,3 @@
+### Description
+
+Blog Types file.

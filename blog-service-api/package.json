@@ -1,11 +1,19 @@
 {
-    "name": "blog-service-api",
-    "devDependencies": {
-        "@types/node": "^14"
-    },
-    "dependencies": {
-        "@pulumi/pulumi": "^3.0.0",
-        "@pulumi/aws": "^4.0.0",
-        "@pulumi/awsx": "^0.30.0"
-    }
+	"name": "blog-service-api",
+	"devDependencies": {
+		"@types/node": "^14"
+	},
+	"scripts": {
+		"package": "7z a -tzip blog-service-api.zip ."
+	},
+	"dependencies": {
+		"@nicholas-yong/blog-types": "^1.0.0",
+		"@pulumi/aws": "^4.0.0",
+		"@pulumi/awsx": "^0.30.0",
+		"@pulumi/pulumi": "^3.0.0",
+		"@types/express": "^4.17.13",
+		"@vendia/serverless-express": "^4.5.2",
+		"body-parser": "^1.19.1",
+		"express": "^4.17.2"
+	}
 }

@@ -1,0 +1,11 @@
+{
+  "name": "@nicholas-yong/blog-types",
+  "version": "1.0.0",
+  "description": "TS file for Blog Types",
+  "main": "types.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
