@@ -1,4 +1,4 @@
-import { BlogRequestTypes } from "../../types"
+import { BlogRequestTypes } from "../types"
 
 export const blogRequestHandler = async (requestType: BlogRequestTypes) => {
 	switch (requestType) {
