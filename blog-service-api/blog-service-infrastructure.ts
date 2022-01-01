@@ -35,8 +35,8 @@ export class BlogServiceAPI extends pulumi.ComponentResource {
 			{
 				code: new pulumi.asset.FileArchive("blog-service-api.zip"),
 				role: lambdaIAMRole.arn,
-				handler: "lambda.test",
-				runtime: "nodejs12.x"
+				handler: "bin/lambda.handler",
+				runtime: "nodejs14.x"
 			},
 			{
 				parent: this
@@ -64,6 +64,56 @@ export class BlogServiceAPI extends pulumi.ComponentResource {
 				sourceArn: pulumi.interpolate`${blogAPIGateway.executionArn}/*/*`
 			},
 			{ parent: this }
+		)
+
+		// Add CloudWatch Logging
+		const blogLogGroup = new aws.cloudwatch.LogGroup(
+			`${stackName}-blogLogGroup`,
+			{
+				retentionInDays: 14
+			},
+			{
+				parent: this
+			}
+		)
+
+		const lambdaLogging = new aws.iam.Policy(
+			`${stackName}-blogLambdaLogging`,
+			{
+				path: "/",
+				description: "IAM policy for logging from a lambda",
+				policy: `{
+                             "Version": "2012-10-17",
+                             "Statement": 
+                             [
+                                {
+                                "Action": [
+                                    "logs:CreateLogGroup",
+                                    "logs:CreateLogStream",
+                                    "logs:PutLogEvents"
+                                ],
+                                "Resource": "arn:aws:logs:*:*:*",
+                                "Effect": "Allow"
+                                }
+                             ]
+                        }
+        `
+			},
+			{
+				parent: this
+			}
+		)
+
+		//Attach the IAM policy to the Lambda Function
+		const lambdaLogPolicyAttachment = new aws.iam.RolePolicyAttachment(
+			`${stackName}-LambdaLogPolicyAttachment`,
+			{
+				role: lambdaIAMRole,
+				policyArn: pulumi.output(lambdaLogging.arn)
+			},
+			{
+				parent: this
+			}
 		)
 	}
 }

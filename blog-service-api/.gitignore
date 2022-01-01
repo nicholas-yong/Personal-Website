@@ -1,2 +1,4 @@
 /bin/
 /node_modules/
+/lambda/bin
+/lambda/node_modules/

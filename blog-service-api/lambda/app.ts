@@ -2,16 +2,19 @@ import express from "express"
 import bodyParser from "body-parser"
 import { CreateBlogItemDTO } from "./types"
 import { blogRequestHandler } from "./handlers"
+import { loggerMiddleware } from "./middleware/logger"
 
 export const app = express()
-app.use(bodyParser)
+
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(loggerMiddleware)
 
 // Setup routes
 app.get(`/blog/:id`, async (req, res) => {
-	const id = req.query.id as string
+	const id = req.params.id as string
 
 	if (!id) {
-		return res.status(404)
+		return res.status(404).send("test")
 	}
 
 	const result = await blogRequestHandler("getBlogItem")
@@ -47,7 +50,7 @@ app.get(`/blog/listing/:number`, async (req, res) => {
 })
 
 app.put(`/blog/:id`, async (req, res) => {
-	const id = req.query.id as string
+	const id = req.params.id as string
 
 	if (!id) {
 		return res.status(404)
@@ -59,7 +62,7 @@ app.put(`/blog/:id`, async (req, res) => {
 })
 
 app.delete(`/blog/:id`, async (req, res) => {
-	const id = req.query.id as string
+	const id = req.params.id as string
 
 	if (!id) {
 		return res.status(404)
@@ -69,3 +72,5 @@ app.delete(`/blog/:id`, async (req, res) => {
 
 	return res.json(result)
 })
+
+app.listen(3000)

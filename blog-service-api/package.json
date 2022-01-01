@@ -1,19 +1,18 @@
 {
 	"name": "blog-service-api",
 	"devDependencies": {
+		"@babel/cli": "^7.16.7",
+		"@babel/core": "^7.16.7",
+		"@babel/preset-env": "^7.16.7",
 		"@types/node": "^14"
 	},
 	"scripts": {
-		"package": "7z a -tzip blog-service-api.zip ."
+		"package": "cd ./lambda && tsc && cd .. && 7z a -tzip blog-service-api.zip ./lambda/bin ./lambda/node_modules"
 	},
 	"dependencies": {
 		"@nicholas-yong/blog-types": "^1.0.0",
 		"@pulumi/aws": "^4.0.0",
 		"@pulumi/awsx": "^0.30.0",
-		"@pulumi/pulumi": "^3.0.0",
-		"@types/express": "^4.17.13",
-		"@vendia/serverless-express": "^4.5.2",
-		"body-parser": "^1.19.1",
-		"express": "^4.17.2"
+		"@pulumi/pulumi": "^3.0.0"
 	}
 }
