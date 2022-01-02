@@ -1,0 +1,15 @@
+{
+    "name": "blog-db",
+    "devDependencies": {
+        "@types/node": "^14"
+    },
+    "dependencies": {
+        "@nicholas-yong/blog-types": "^1.0.0",
+        "@pulumi/aws": "^4.0.0",
+        "@pulumi/awsx": "^0.30.0",
+        "@pulumi/pulumi": "^3.0.0",
+        "@types/nconf": "^0.10.1",
+        "aws-sdk": "^2.1048.0",
+        "nconf": "^0.11.3"
+    }
+}
