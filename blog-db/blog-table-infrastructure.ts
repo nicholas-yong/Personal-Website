@@ -29,5 +29,10 @@ export class BlogTables extends pulumi.ComponentResource {
 				parent: this
 			}
 		)
+
+		const blogNumber = new aws.ssm.Parameter("numBlogs", {
+			type: "String",
+			value: "0"
+		})
 	}
 }
