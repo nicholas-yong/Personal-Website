@@ -1,3 +1,4 @@
 {
-	"tableName": "dev-blog-table-ec35b6e"
+	"tableName": "dev-blog-table-195faf8",
+	"ssmBlogCountName": "numBlogs"
 }

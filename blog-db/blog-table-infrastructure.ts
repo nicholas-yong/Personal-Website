@@ -17,12 +17,12 @@ export class BlogTables extends pulumi.ComponentResource {
 						type: "S"
 					},
 					{
-						name: "Rev",
-						type: "N"
+						name: "ItemType",
+						type: "S"
 					}
 				],
 				hashKey: "BlogID",
-				rangeKey: "Rev",
+				rangeKey: "ItemType",
 				billingMode: "PAY_PER_REQUEST"
 			},
 			{
