@@ -7,10 +7,9 @@
 		"@types/node": "^14"
 	},
 	"scripts": {
-		"package": "cd ./lambda && tsc && cd .. && 7z a -tzip blog-service-api.zip ./lambda/bin ./lambda/node_modules"
+		"package": "cd lambda && tsc && cd .. && 7z a -tzip blog-service-api.zip ./lambda/bin ./lambda/node_modules"
 	},
 	"dependencies": {
-		"@nicholas-yong/blog-types": "^1.1.0",
 		"@pulumi/aws": "^4.0.0",
 		"@pulumi/awsx": "^0.30.0",
 		"@pulumi/pulumi": "^3.0.0"

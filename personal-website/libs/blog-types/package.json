@@ -1,6 +1,6 @@
 {
   "name": "@nicholas-yong/blog-types",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "TS file for Blog Types",
   "main": "types.ts",
   "scripts": {

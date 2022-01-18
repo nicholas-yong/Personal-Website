@@ -29,7 +29,9 @@ export interface GetBlogItemDTO {
 	tags: Array<BlogTags>
 }
 
-export type UpdateBlogItemDTO = CreateBlogItemDTO
+export interface UpdateBlogItemDTO extends CreateBlogItemDTO {
+	id: number
+}
 
 export interface DeleteBlogItemDTO {
 	id: number

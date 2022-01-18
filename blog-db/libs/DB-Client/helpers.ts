@@ -1,8 +1,7 @@
 import * as aws from "aws-sdk"
-import nconf from 'nconf'
+import { Logger } from "pino"
 import { DBClientConfiguration } from "./types"
-import { dirname } from "path"
-
+import nconf from "nconf"
 
 export const getNumBlogItems = async () => {
 	try {
@@ -14,9 +13,11 @@ export const getNumBlogItems = async () => {
 		}
 
 		const result = ssm.getParameter(params, (err, data) => {
-			if (data) {
+			if (data && data.Parameter) {
 				return data.Parameter.Value
 			}
+
+			return
 		})
 
 		return
@@ -25,30 +26,28 @@ export const getNumBlogItems = async () => {
 	}
 }
 
-export const setupAWSConnection = (): DBClientConfiguration => {
+export const setupAWSConnection = (log: Logger): DBClientConfiguration => {
 	aws.config.update({
 		region: "ap-southeast-2"
 	})
-	
+
 	const db = new aws.DynamoDB({
 		apiVersion: "2012-08-10"
 	})
 
-	try
-	{
-		// Need to get the root of the project here.
+	try {
+		nconf.file("./config.json")
 
-		const root = dirname(require.main.filename)
+		nconf.load()
 
-		nconf.argv().env().file({
-			file: `${root}/dev.config.json`
+		log.info({
+			test1: nconf.get("tableName"),
+			test2: nconf.get("ssmBlogCountName")
 		})
-	}
-	catch(e)
-	{
+	} catch (e) {
 		console.error(e)
 	}
-	
+
 	return {
 		items: nconf,
 		db

@@ -6,13 +6,14 @@ import {
 	UpdateBlogItemDTO
 } from "@nicholas-yong/blog-types"
 import * as aws from "aws-sdk"
+import { Logger } from "pino"
 
 export class DBClient {
 	private config: DBClientConfiguration
 
-	constructor() {
+	constructor(private log: Logger) {
 		// Setup Configuration -- this will throw if there isn't a config file inside the root of the project.
-		this.config = setupAWSConnection()
+		this.config = setupAWSConnection(log)
 	}
 
 	async queryBatchItems(id: number): Promise<Array<BlogItemDTO> | void> {
@@ -38,16 +39,18 @@ export class DBClient {
 				.query(queryParams)
 				.promise()
 
-			let output: Array<BlogItemDTO>
+			let output: Array<BlogItemDTO> = []
 
 			if ($response && $response.data) {
 				const responseResult = $response.data.Items
 
-				output = responseResult.map((result) => {
-					return aws.DynamoDB.Converter.unmarshall(
-						result
-					) as BlogItemDTO
-				})
+				if (responseResult) {
+					output = responseResult.map((result) => {
+						return aws.DynamoDB.Converter.unmarshall(
+							result
+						) as BlogItemDTO
+					})
+				}
 			} else {
 				throw new Error("Unable to get latest result rev of item")
 			}
@@ -70,7 +73,7 @@ export class DBClient {
 				TableName: this.config.items.get("tableName") as string,
 				Key: {
 					BlogID: {
-						S: id.toString(0)
+						S: id.toString()
 					},
 					ItemType: {
 						S: "Current"
@@ -151,7 +154,8 @@ export class DBClient {
 			await ssm
 				.putParameter({
 					Name: this.config.items.get("ssmBlogCountName") as string,
-					Value: newBlogID
+					Value: newBlogID,
+					Overwrite: true
 				})
 				.promise()
 
