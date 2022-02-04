@@ -65,9 +65,9 @@ const setupAWSConnection = (log) => {
         nconf_1.default.file("./config.json");
         nconf_1.default.load();
         log.info({
-            test1: nconf_1.default.get("tableName"),
-            test2: nconf_1.default.get("ssmBlogCountName")
-        });
+            tableName: nconf_1.default.get("tableName"),
+            blogName: nconf_1.default.get("ssmBlogCountName")
+        }, "Config");
     }
     catch (e) {
         console.error(e);

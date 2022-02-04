@@ -40,10 +40,13 @@ export const setupAWSConnection = (log: Logger): DBClientConfiguration => {
 
 		nconf.load()
 
-		log.info({
-			test1: nconf.get("tableName"),
-			test2: nconf.get("ssmBlogCountName")
-		})
+		log.info(
+			{
+				tableName: nconf.get("tableName"),
+				blogName: nconf.get("ssmBlogCountName")
+			},
+			"Config"
+		)
 	} catch (e) {
 		console.error(e)
 	}

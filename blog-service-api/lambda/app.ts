@@ -53,12 +53,6 @@ app.get(`/blog/listing/:number`, async (req, res) => {
 	}
 
 	return
-
-	// const result = await blogRequestHandler({
-	//     requestType: ""
-	// })
-
-	// return res.json(result)
 })
 
 app.put(`/blog/:id`, async (req, res) => {

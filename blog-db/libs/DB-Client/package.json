@@ -1,6 +1,6 @@
 {
 	"name": "@nicholas-yong/db-client",
-	"version": "1.0.5",
+	"version": "1.0.8",
 	"description": "Client to interface with my backend blog DB",
 	"main": "bin/index.js",
 	"scripts": {

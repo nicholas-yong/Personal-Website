@@ -114,7 +114,7 @@ export class DBClient {
 				throw new Error("Could not get current blog count from SSM")
 			}
 
-			const newBlogID = (Parameter.Value + 1).toString()
+			const newBlogID = (Number.parseInt(Parameter.Value) + 1).toString()
 
 			// We will return the created item to the client as a BlogItemDTO
 			const queryParams: aws.DynamoDB.PutItemInput = {
@@ -149,6 +149,13 @@ export class DBClient {
 
 			// We don't need the response (bills :() )
 			await this.config.db.putItem(queryParams).promise()
+
+			this.log.info(
+				{
+					queryParams
+				},
+				"Update DTO Query Params"
+			)
 
 			// Need to update SSM to the next current BlogID
 			await ssm

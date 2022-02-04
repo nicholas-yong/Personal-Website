@@ -6,12 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const _1 = require(".");
 const pino_1 = __importDefault(require("pino"));
 const logger = (0, pino_1.default)();
-const tester = new _1.DBClient(logger);
-tester.createItem({
-    title: "test",
-    mainPicture: "www.test.com",
-    teaser: "Test of a lifetime...",
-    content: "Dream...",
-    tags: ["food"]
+const db = new _1.DBClient(logger);
+const id = 1;
+const result = db.getItem(id);
+result.then((id) => {
+    console.log(id);
 });
 //# sourceMappingURL=test.js.map

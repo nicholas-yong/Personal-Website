@@ -115,5 +115,9 @@ export class BlogServiceAPI extends pulumi.ComponentResource {
 				parent: this
 			}
 		)
+
+		this.registerOutputs({
+			apiEndpoint: blogAPIGateway.apiEndpoint
+		})
 	}
 }

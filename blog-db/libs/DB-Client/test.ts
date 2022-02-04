@@ -3,12 +3,12 @@ import pino from "pino"
 
 const logger = pino()
 
-const tester = new DBClient(logger)
+const db = new DBClient(logger)
 
-tester.createItem({
-	title: "test",
-	mainPicture: "www.test.com",
-	teaser: "Test of a lifetime...",
-	content: "Dream...",
-	tags: ["food"]
+const id = 1
+
+const result = db.getItem(id)
+
+result.then((id) => {
+	console.log(id)
 })

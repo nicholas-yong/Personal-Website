@@ -114,7 +114,7 @@ class DBClient {
                     TableName: this.config.items.get("tableName"),
                     Key: {
                         BlogID: {
-                            S: id.toString(0)
+                            S: id.toString()
                         },
                         ItemType: {
                             S: "Current"
@@ -150,7 +150,7 @@ class DBClient {
                 if (!Parameter || !Parameter.Value) {
                     throw new Error("Could not get current blog count from SSM");
                 }
-                const newBlogID = (Parameter.Value + 1).toString();
+                const newBlogID = (Number.parseInt(Parameter.Value) + 1).toString();
                 // We will return the created item to the client as a BlogItemDTO
                 const queryParams = {
                     TableName: this.config.items.get("tableName"),
@@ -183,6 +183,9 @@ class DBClient {
                 };
                 // We don't need the response (bills :() )
                 yield this.config.db.putItem(queryParams).promise();
+                this.log.info({
+                    queryParams
+                }, "Update DTO Query Params");
                 // Need to update SSM to the next current BlogID
                 yield ssm
                     .putParameter({
