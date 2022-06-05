@@ -1,17 +1,24 @@
 {
-	"name": "blog-service-api",
-	"devDependencies": {
-		"@babel/cli": "^7.16.7",
-		"@babel/core": "^7.16.7",
-		"@babel/preset-env": "^7.16.7",
-		"@types/node": "^14"
-	},
-	"scripts": {
-		"package": "cd lambda && tsc && cd .. && 7z a -tzip blog-service-api.zip ./lambda/bin ./lambda/node_modules"
-	},
-	"dependencies": {
-		"@pulumi/aws": "^4.0.0",
-		"@pulumi/awsx": "^0.30.0",
-		"@pulumi/pulumi": "^3.0.0"
-	}
+  "name": "blog-service-api",
+  "devDependencies": {
+    "@babel/cli": "^7.16.7",
+    "@babel/core": "^7.16.7",
+    "@babel/preset-env": "^7.16.7",
+    "@types/node": "^14"
+  },
+  "scripts": {
+    "package": "cd lambda && tsc && cd .. && 7z a -tzip blog-service-api.zip ./lambda/bin ./lambda/node_modules"
+  },
+  "dependencies": {
+    "@pulumi/aws": "^4.0.0",
+    "@pulumi/awsx": "^0.30.0",
+    "@pulumi/pulumi": "^3.0.0",
+    "@nicholas-yong/db-client": "^1.0.8",
+    "@nicholas-yong/blog-types": "^1.2.1",
+    "@types/express": "^4.17.13",
+    "@vendia/serverless-express": "^4.5.2",
+    "body-parser": "^1.19.1",
+    "express": "^4.17.2",
+    "pino": "^7.6.2"
+  }
 }
