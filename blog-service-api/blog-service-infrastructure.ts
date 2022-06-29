@@ -1,8 +1,9 @@
 import * as aws from "@pulumi/aws"
 import * as pulumi from "@pulumi/pulumi"
+import * as awsx from '@pulumi/awsx'
 
 export class BlogServiceAPI extends pulumi.ComponentResource {
-	constructor(name, opts) {
+	constructor(name, args: { certificateArn: pulumi.Input<string>}, opts) {
 		super("blog-service-infrastructure:blogServiceAPI", name, {}, opts)
 
 		// Name of executing stack
@@ -43,17 +44,49 @@ export class BlogServiceAPI extends pulumi.ComponentResource {
 			}
 		)
 
-		// Create the API Gateway first
-		const blogAPIGateway = new aws.apigatewayv2.Api(
-			"blogAPIGateway",
+		const apiBlog = new awsx.apigateway.API(
+			`${name}-rest-api`,
 			{
-				protocolType: "HTTP",
-				target: pulumi.output(blogServiceLambda.arn)
-			},
+				routes:
+				[
+					{
+						path: '/integration',
+						target: {
+							type: 'aws_proxy',
+							uri: 'arn:aws:apigateway:'
+						}
+					}
+
+				]
+			}
+		)
+
+		const blogApiDomainName = new aws.apigateway.DomainName(
+			`${stackName}-api-domain-name`, 
+			{
+				domainName: 'api.justlostinlove.com',
+				certificateArn: args.certificateArn
+			}, 
 			{
 				parent: this
 			}
 		)
+
+
+		// // Create the API Gateway first
+		// const blogAPIGateway = new aws.apigatewayv2.Api(
+		// 	"blogAPIGateway",
+		// 	{
+		// 		protocolType: "HTTP",
+		// 		target: pulumi.output(blogServiceLambda.arn)
+		// 	},
+		// 	{
+		// 		parent: this
+		// 	}
+		
+
+
+
 
 		new aws.lambda.Permission(
 			`${stackName}-lambdaPermission`,
@@ -115,6 +148,10 @@ export class BlogServiceAPI extends pulumi.ComponentResource {
 				parent: this
 			}
 		)
+
+		
+
+
 
 		this.registerOutputs({
 			apiEndpoint: blogAPIGateway.apiEndpoint
