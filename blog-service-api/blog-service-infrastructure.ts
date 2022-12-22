@@ -1,9 +1,10 @@
 import * as aws from "@pulumi/aws"
 import * as pulumi from "@pulumi/pulumi"
 import * as awsx from '@pulumi/awsx'
+import pino from 'pino'
 
 export class BlogServiceAPI extends pulumi.ComponentResource {
-	constructor(name, args: { certificateArn: pulumi.Input<string>}, opts) {
+	constructor(name,  opts) {
 		super("blog-service-infrastructure:blogServiceAPI", name, {}, opts)
 
 		// Name of executing stack
@@ -44,49 +45,75 @@ export class BlogServiceAPI extends pulumi.ComponentResource {
 			}
 		)
 
-		const apiBlog = new awsx.apigateway.API(
-			`${name}-rest-api`,
-			{
-				routes:
-				[
-					{
-						path: '/integration',
-						target: {
-							type: 'aws_proxy',
-							uri: 'arn:aws:apigateway:'
-						}
-					}
+		const cert = new aws.acm.Certificate(`${name}-site-cert`, {
+            domainName: 'justlostinlove.com',
+            tags: {},
+            validationMethod: "DNS",
+        }, {
+			parent: this
+		})
 
-				]
-			}
-		)
-
-		const blogApiDomainName = new aws.apigateway.DomainName(
-			`${stackName}-api-domain-name`, 
-			{
-				domainName: 'api.justlostinlove.com',
-				certificateArn: args.certificateArn
-			}, 
-			{
-				parent: this
-			}
-		)
+		const baseZone = new aws.route53.Zone(`${name}-cert-zone`, {
+			name: "justlostinlove.com",
+		}, {
+			parent: this
+		})
 
 
-		// // Create the API Gateway first
-		// const blogAPIGateway = new aws.apigatewayv2.Api(
-		// 	"blogAPIGateway",
+		const apiBlog = new aws.apigatewayv2.Api(`${name}-rest-api`, {
+			protocolType: 'HTTP'
+		}, {
+			parent: this
+		})
+
+		const exampleRecord: aws.route53.Record[] = []
+
+		const output = pulumi.all([cert.domainValidationOptions, baseZone]).apply(([validationOptions, zones]) => {
+			validationOptions.map((validationOption) => {
+				exampleRecord.push(new aws.route53.Record(`exampleRecord-${validationOption.domainName}`, {
+					allowOverwrite: true,
+					name: validationOption.domainName,
+					records: [validationOption.resourceRecordValue],
+					ttl: 5 * 60,
+					type: validationOption.resourceRecordType,
+					zoneId: zones.zoneId,
+				}, {
+					parent: this
+				}));
+			})
+		})
+
+
+		new aws.acm.CertificateValidation(`${name}-cert-validation`, {
+			certificateArn: cert.arn,
+			validationRecordFqdns: exampleRecord.map((record) => record.fqdn),
+		}, {
+			parent: this
+		});
+
+
+		new aws.apigatewayv2.Integration(`${name}-rest-api-integration`, {
+			integrationType: 'AWS_PROXY',
+			integrationUri: blogServiceLambda.arn,
+			apiId: apiBlog.id
+		}, {
+			parent: this
+		})
+
+		// new aws.apigatewayv2.DomainName(
+		// `${stackName}-api-domain-name`, 
 		// 	{
-		// 		protocolType: "HTTP",
-		// 		target: pulumi.output(blogServiceLambda.arn)
-		// 	},
+		// 		domainName: 'api.justlostinlove.com',
+		// 		domainNameConfiguration:
+		// 		{
+		// 			certificateArn:  cert.arn,
+		// 			endpointType: 'REGIONAL',
+		// 			securityPolicy: 'TLS_1_2'
+		// 		}
+		// 	}, 
 		// 	{
 		// 		parent: this
-		// 	}
-		
-
-
-
+		// 	})
 
 		new aws.lambda.Permission(
 			`${stackName}-lambdaPermission`,
@@ -94,16 +121,17 @@ export class BlogServiceAPI extends pulumi.ComponentResource {
 				action: "lambda:InvokeFunction",
 				principal: "apigateway.amazonaws.com",
 				function: blogServiceLambda,
-				sourceArn: pulumi.interpolate`${blogAPIGateway.executionArn}/*/*`
+				sourceArn: pulumi.interpolate`${apiBlog.executionArn}/*/*`
 			},
 			{ parent: this }
 		)
 
 		// Add CloudWatch Logging
-		const blogLogGroup = new aws.cloudwatch.LogGroup(
+		new aws.cloudwatch.LogGroup(
 			`${stackName}-blogLogGroup`,
 			{
 				retentionInDays: 14
+
 			},
 			{
 				parent: this
@@ -138,7 +166,7 @@ export class BlogServiceAPI extends pulumi.ComponentResource {
 		)
 
 		//Attach the IAM policy to the Lambda Function
-		const lambdaLogPolicyAttachment = new aws.iam.RolePolicyAttachment(
+		 new aws.iam.RolePolicyAttachment(
 			`${stackName}-LambdaLogPolicyAttachment`,
 			{
 				role: lambdaIAMRole,
@@ -149,12 +177,10 @@ export class BlogServiceAPI extends pulumi.ComponentResource {
 			}
 		)
 
-		
-
 
 
 		this.registerOutputs({
-			apiEndpoint: blogAPIGateway.apiEndpoint
+			apiEndpoint: apiBlog.apiEndpoint
 		})
 	}
 }

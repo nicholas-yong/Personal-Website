@@ -1,0 +1,3 @@
+name: common-infrastructure
+runtime: nodejs
+description: Project contains common infrastructure for all projects

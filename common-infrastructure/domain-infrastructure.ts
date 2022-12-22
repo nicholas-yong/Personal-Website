@@ -1,6 +1,5 @@
 import * as aws from "@pulumi/aws"
 import * as pulumi from "@pulumi/pulumi"
-import { P } from "pino"
 
 export class DomainInfrastructure extends pulumi.ComponentResource {
     certificateArn: pulumi.Output<string>

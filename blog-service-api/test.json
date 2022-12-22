@@ -1,0 +1,489 @@
+{
+  "version": 3,
+  "deployment": {
+    "manifest": {
+      "time": "2022-07-13T14:35:49.889384+08:00",
+      "magic": "3941cd8d8f96d38ddb61c5e4d852cb2b8f303c21d4cb1800bbf01ef47779cdfa",
+      "version": "v3.26.1"
+    },
+    "secrets_providers": {
+      "type": "service",
+      "state": {
+        "url": "https://api.pulumi.com",
+        "owner": "nicholas-yong",
+        "project": "blog-service-api",
+        "stack": "dev"
+      }
+    },
+    "resources": [
+      {
+        "urn": "urn:pulumi:dev::blog-service-api::pulumi:pulumi:Stack::blog-service-api-dev",
+        "custom": false,
+        "type": "pulumi:pulumi:Stack",
+        "outputs": {
+          "blogServiceAPI": {
+            "urn": "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI::BlogServiceAPI"
+          }
+        }
+      },
+      {
+        "urn": "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI::BlogServiceAPI",
+        "custom": false,
+        "type": "blog-service-infrastructure:blogServiceAPI",
+        "outputs": {
+          "apiEndpoint": "https://mwdl9mqbaf.execute-api.ap-southeast-2.amazonaws.com"
+        },
+        "parent": "urn:pulumi:dev::blog-service-api::pulumi:pulumi:Stack::blog-service-api-dev"
+      },
+      {
+        "urn": "urn:pulumi:dev::blog-service-api::pulumi:providers:aws::default_4_33_0",
+        "custom": true,
+        "id": "9e3c7042-4346-4a31-b14a-8e925ab38a28",
+        "type": "pulumi:providers:aws",
+        "inputs": {
+          "region": "ap-southeast-2",
+          "version": "4.33.0"
+        },
+        "outputs": {
+          "region": "ap-southeast-2",
+          "version": "4.33.0"
+        }
+      },
+      {
+        "urn": "urn:pulumi:dev::blog-service-api::aws:route53/zone:Zone::BlogServiceAPI-cert-zone",
+        "custom": true,
+        "id": "Z0964275JJ1N73XHSJ0M",
+        "type": "aws:route53/zone:Zone",
+        "inputs": {
+          "__defaults": ["forceDestroy"],
+          "comment": "Managed by Pulumi",
+          "forceDestroy": false,
+          "name": "justlostinlove.com"
+        },
+        "outputs": {
+          "arn": "arn:aws:route53:::hostedzone/Z0964275JJ1N73XHSJ0M",
+          "comment": "Managed by Pulumi",
+          "delegationSetId": "",
+          "forceDestroy": false,
+          "id": "Z0964275JJ1N73XHSJ0M",
+          "name": "justlostinlove.com",
+          "nameServers": [
+            "ns-1225.awsdns-25.org",
+            "ns-1912.awsdns-47.co.uk",
+            "ns-461.awsdns-57.com",
+            "ns-779.awsdns-33.net"
+          ],
+          "tags": {},
+          "tagsAll": {},
+          "vpcs": [],
+          "zoneId": "Z0964275JJ1N73XHSJ0M"
+        },
+        "parent": "urn:pulumi:dev::blog-service-api::pulumi:pulumi:Stack::blog-service-api-dev",
+        "provider": "urn:pulumi:dev::blog-service-api::pulumi:providers:aws::default_4_33_0::9e3c7042-4346-4a31-b14a-8e925ab38a28",
+        "propertyDependencies": {
+          "comment": null,
+          "name": null
+        },
+        "sequenceNumber": 1
+      },
+      {
+        "urn": "urn:pulumi:dev::blog-service-api::aws:acm/certificate:Certificate::BlogServiceAPI-site-cert",
+        "custom": true,
+        "id": "arn:aws:acm:ap-southeast-2:814810360788:certificate/c3af9812-f888-4399-9cd7-94193a89973a",
+        "type": "aws:acm/certificate:Certificate",
+        "inputs": {
+          "__defaults": [],
+          "domainName": "justlostinlove.com",
+          "tags": {
+            "__defaults": []
+          },
+          "validationMethod": "DNS"
+        },
+        "outputs": {
+          "arn": "arn:aws:acm:ap-southeast-2:814810360788:certificate/c3af9812-f888-4399-9cd7-94193a89973a",
+          "certificateAuthorityArn": "",
+          "domainName": "justlostinlove.com",
+          "domainValidationOptions": [
+            {
+              "domainName": "justlostinlove.com",
+              "resourceRecordName": "_fdd30bc58e30e3959bffecf675231a3d.justlostinlove.com.",
+              "resourceRecordType": "CNAME",
+              "resourceRecordValue": "_18958ead9294f8055ec38a5f5c831c9c.hqkbcmchgw.acm-validations.aws."
+            }
+          ],
+          "id": "arn:aws:acm:ap-southeast-2:814810360788:certificate/c3af9812-f888-4399-9cd7-94193a89973a",
+          "options": {
+            "certificateTransparencyLoggingPreference": "ENABLED"
+          },
+          "status": "PENDING_VALIDATION",
+          "subjectAlternativeNames": [],
+          "tags": {},
+          "tagsAll": {},
+          "validationEmails": [],
+          "validationMethod": "DNS"
+        },
+        "parent": "urn:pulumi:dev::blog-service-api::pulumi:pulumi:Stack::blog-service-api-dev",
+        "provider": "urn:pulumi:dev::blog-service-api::pulumi:providers:aws::default_4_33_0::9e3c7042-4346-4a31-b14a-8e925ab38a28",
+        "propertyDependencies": {
+          "domainName": null,
+          "tags": null,
+          "validationMethod": null
+        },
+        "sequenceNumber": 1
+      },
+      {
+        "urn": "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:cloudwatch/logGroup:LogGroup::dev-blogLogGroup",
+        "custom": true,
+        "id": "dev-blogLogGroup-668a4a3",
+        "type": "aws:cloudwatch/logGroup:LogGroup",
+        "inputs": {
+          "__defaults": ["name"],
+          "name": "dev-blogLogGroup-668a4a3",
+          "retentionInDays": 14
+        },
+        "outputs": {
+          "arn": "arn:aws:logs:ap-southeast-2:814810360788:log-group:dev-blogLogGroup-668a4a3",
+          "id": "dev-blogLogGroup-668a4a3",
+          "kmsKeyId": "",
+          "name": "dev-blogLogGroup-668a4a3",
+          "retentionInDays": 14,
+          "tags": {},
+          "tagsAll": {}
+        },
+        "parent": "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI::BlogServiceAPI",
+        "provider": "urn:pulumi:dev::blog-service-api::pulumi:providers:aws::default_4_33_0::9e3c7042-4346-4a31-b14a-8e925ab38a28",
+        "propertyDependencies": {
+          "retentionInDays": null
+        }
+      },
+      {
+        "urn": "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:iam/policy:Policy::dev-blogLambdaLogging",
+        "custom": true,
+        "id": "arn:aws:iam::814810360788:policy/dev-blogLambdaLogging-113ef82",
+        "type": "aws:iam/policy:Policy",
+        "inputs": {
+          "__defaults": ["name"],
+          "description": "IAM policy for logging from a lambda",
+          "name": "dev-blogLambdaLogging-113ef82",
+          "path": "/",
+          "policy": "{\n                             \"Version\": \"2012-10-17\",\n                             \"Statement\": \n                             [\n                                {\n                                \"Action\": [\n                                    \"logs:CreateLogGroup\",\n                                    \"logs:CreateLogStream\",\n                                    \"logs:PutLogEvents\"\n                                ],\n                                \"Resource\": \"arn:aws:logs:*:*:*\",\n                                \"Effect\": \"Allow\"\n                                }\n                             ]\n                        }\n        "
+        },
+        "outputs": {
+          "arn": "arn:aws:iam::814810360788:policy/dev-blogLambdaLogging-113ef82",
+          "description": "IAM policy for logging from a lambda",
+          "id": "arn:aws:iam::814810360788:policy/dev-blogLambdaLogging-113ef82",
+          "name": "dev-blogLambdaLogging-113ef82",
+          "path": "/",
+          "policy": "{\"Statement\":[{\"Action\":[\"logs:CreateLogGroup\",\"logs:CreateLogStream\",\"logs:PutLogEvents\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:logs:*:*:*\"}],\"Version\":\"2012-10-17\"}",
+          "policyId": "ANPA33NT3NPKPHYGYPZXB",
+          "tags": {},
+          "tagsAll": {}
+        },
+        "parent": "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI::BlogServiceAPI",
+        "provider": "urn:pulumi:dev::blog-service-api::pulumi:providers:aws::default_4_33_0::9e3c7042-4346-4a31-b14a-8e925ab38a28",
+        "propertyDependencies": {
+          "description": null,
+          "path": null,
+          "policy": null
+        }
+      },
+      {
+        "urn": "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:iam/role:Role::dev-stacklambdaIAMRole",
+        "custom": true,
+        "id": "dev-stacklambdaIAMRole-f3defc5",
+        "type": "aws:iam/role:Role",
+        "inputs": {
+          "__defaults": [
+            "forceDetachPolicies",
+            "maxSessionDuration",
+            "name",
+            "path"
+          ],
+          "assumeRolePolicy": "{\n            \"Version\": \"2012-10-17\",\n            \"Statement\": [\n              {\n                \"Action\": \"sts:AssumeRole\",\n                \"Principal\": {\n                  \"Service\": \"lambda.amazonaws.com\"\n                },\n                \"Effect\": \"Allow\",\n                \"Sid\": \"\"\n              }\n            ]\n          }\n          ",
+          "forceDetachPolicies": false,
+          "maxSessionDuration": 3600,
+          "name": "dev-stacklambdaIAMRole-f3defc5",
+          "path": "/"
+        },
+        "outputs": {
+          "arn": "arn:aws:iam::814810360788:role/dev-stacklambdaIAMRole-f3defc5",
+          "assumeRolePolicy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"lambda.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}",
+          "createDate": "2021-12-31T03:51:09Z",
+          "description": "",
+          "forceDetachPolicies": false,
+          "id": "dev-stacklambdaIAMRole-f3defc5",
+          "inlinePolicies": [
+            {
+              "name": "",
+              "policy": ""
+            }
+          ],
+          "managedPolicyArns": [
+            "arn:aws:iam::814810360788:policy/dev-blogLambdaLogging-113ef82"
+          ],
+          "maxSessionDuration": 3600,
+          "name": "dev-stacklambdaIAMRole-f3defc5",
+          "namePrefix": "",
+          "path": "/",
+          "tags": {},
+          "tagsAll": {},
+          "uniqueId": "AROA33NT3NPKPNIMJ7DSY"
+        },
+        "parent": "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI::BlogServiceAPI",
+        "provider": "urn:pulumi:dev::blog-service-api::pulumi:providers:aws::default_4_33_0::9e3c7042-4346-4a31-b14a-8e925ab38a28",
+        "propertyDependencies": {
+          "assumeRolePolicy": null
+        }
+      },
+      {
+        "urn": "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:apigatewayv2/api:Api::BlogServiceAPI-rest-api",
+        "custom": true,
+        "id": "mwdl9mqbaf",
+        "type": "aws:apigatewayv2/api:Api",
+        "inputs": {
+          "__defaults": [
+            "apiKeySelectionExpression",
+            "name",
+            "routeSelectionExpression"
+          ],
+          "apiKeySelectionExpression": "$request.header.x-api-key",
+          "name": "BlogServiceAPI-rest-api-1b74eaa",
+          "protocolType": "HTTP",
+          "routeSelectionExpression": "$request.method $request.path"
+        },
+        "outputs": {
+          "apiEndpoint": "https://mwdl9mqbaf.execute-api.ap-southeast-2.amazonaws.com",
+          "apiKeySelectionExpression": "$request.header.x-api-key",
+          "arn": "arn:aws:apigateway:ap-southeast-2::/apis/mwdl9mqbaf",
+          "corsConfiguration": null,
+          "description": "",
+          "disableExecuteApiEndpoint": false,
+          "executionArn": "arn:aws:execute-api:ap-southeast-2:814810360788:mwdl9mqbaf",
+          "id": "mwdl9mqbaf",
+          "name": "BlogServiceAPI-rest-api-1b74eaa",
+          "protocolType": "HTTP",
+          "routeSelectionExpression": "$request.method $request.path",
+          "tags": {},
+          "tagsAll": {},
+          "version": ""
+        },
+        "parent": "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI::BlogServiceAPI",
+        "provider": "urn:pulumi:dev::blog-service-api::pulumi:providers:aws::default_4_33_0::9e3c7042-4346-4a31-b14a-8e925ab38a28",
+        "propertyDependencies": {
+          "protocolType": null
+        },
+        "sequenceNumber": 1
+      },
+      {
+        "urn": "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:iam/rolePolicyAttachment:RolePolicyAttachment::dev-LambdaLogPolicyAttachment",
+        "custom": true,
+        "id": "dev-stacklambdaIAMRole-f3defc5-20211231052248266900000001",
+        "type": "aws:iam/rolePolicyAttachment:RolePolicyAttachment",
+        "inputs": {
+          "__defaults": [],
+          "policyArn": "arn:aws:iam::814810360788:policy/dev-blogLambdaLogging-113ef82",
+          "role": "dev-stacklambdaIAMRole-f3defc5"
+        },
+        "outputs": {
+          "id": "dev-stacklambdaIAMRole-f3defc5-20211231052248266900000001",
+          "policyArn": "arn:aws:iam::814810360788:policy/dev-blogLambdaLogging-113ef82",
+          "role": "dev-stacklambdaIAMRole-f3defc5"
+        },
+        "parent": "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI::BlogServiceAPI",
+        "dependencies": [
+          "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:iam/policy:Policy::dev-blogLambdaLogging",
+          "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:iam/role:Role::dev-stacklambdaIAMRole"
+        ],
+        "provider": "urn:pulumi:dev::blog-service-api::pulumi:providers:aws::default_4_33_0::9e3c7042-4346-4a31-b14a-8e925ab38a28",
+        "propertyDependencies": {
+          "policyArn": [
+            "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:iam/policy:Policy::dev-blogLambdaLogging"
+          ],
+          "role": [
+            "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:iam/role:Role::dev-stacklambdaIAMRole"
+          ]
+        }
+      },
+      {
+        "urn": "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:lambda/function:Function::dev-blogServiceLambda",
+        "custom": true,
+        "id": "dev-blogServiceLambda-ca88640",
+        "type": "aws:lambda/function:Function",
+        "inputs": {
+          "__defaults": [
+            "memorySize",
+            "name",
+            "packageType",
+            "publish",
+            "reservedConcurrentExecutions",
+            "timeout"
+          ],
+          "code": {
+            "4dabf18193072939515e22adb298388d": "0def7320c3a5731c473e5ecbe6d01bc7",
+            "hash": "b1ab56144d07eb23849a901e1f8ce3f08f60add1f8e35daeea9565477923706a",
+            "path": "blog-service-api.zip"
+          },
+          "handler": "bin/lambda.handler",
+          "memorySize": 128,
+          "name": "dev-blogServiceLambda-ca88640",
+          "packageType": "Zip",
+          "publish": false,
+          "reservedConcurrentExecutions": -1,
+          "role": "arn:aws:iam::814810360788:role/dev-stacklambdaIAMRole-f3defc5",
+          "runtime": "nodejs14.x",
+          "timeout": 3
+        },
+        "outputs": {
+          "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":600000000000}}",
+          "architectures": ["x86_64"],
+          "arn": "arn:aws:lambda:ap-southeast-2:814810360788:function:dev-blogServiceLambda-ca88640",
+          "code": "/var/folders/tg/mbhkswf97wsg_ds28r897blh0000gn/T/pulumi-asset-b1ab56144d07eb23849a901e1f8ce3f08f60add1f8e35daeea9565477923706a",
+          "codeSigningConfigArn": "",
+          "deadLetterConfig": null,
+          "description": "",
+          "environment": null,
+          "fileSystemConfig": null,
+          "handler": "bin/lambda.handler",
+          "id": "dev-blogServiceLambda-ca88640",
+          "imageConfig": null,
+          "imageUri": "",
+          "invokeArn": "arn:aws:apigateway:ap-southeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-southeast-2:814810360788:function:dev-blogServiceLambda-ca88640/invocations",
+          "kmsKeyArn": "",
+          "lastModified": "2022-07-03T11:55:13.827+0000",
+          "layers": [],
+          "memorySize": 128,
+          "name": "dev-blogServiceLambda-ca88640",
+          "packageType": "Zip",
+          "publish": false,
+          "qualifiedArn": "arn:aws:lambda:ap-southeast-2:814810360788:function:dev-blogServiceLambda-ca88640:$LATEST",
+          "reservedConcurrentExecutions": -1,
+          "role": "arn:aws:iam::814810360788:role/dev-stacklambdaIAMRole-f3defc5",
+          "runtime": "nodejs14.x",
+          "signingJobArn": "",
+          "signingProfileVersionArn": "",
+          "sourceCodeHash": "satWFE0H6yOEmpAeH4zj8I9grdH4412u6pVlR3kjcGo=",
+          "sourceCodeSize": 19371409,
+          "tags": {},
+          "tagsAll": {},
+          "timeout": 3,
+          "tracingConfig": {
+            "mode": "PassThrough"
+          },
+          "version": "$LATEST",
+          "vpcConfig": null
+        },
+        "parent": "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI::BlogServiceAPI",
+        "dependencies": [
+          "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:iam/role:Role::dev-stacklambdaIAMRole"
+        ],
+        "provider": "urn:pulumi:dev::blog-service-api::pulumi:providers:aws::default_4_33_0::9e3c7042-4346-4a31-b14a-8e925ab38a28",
+        "propertyDependencies": {
+          "code": null,
+          "handler": null,
+          "role": [
+            "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:iam/role:Role::dev-stacklambdaIAMRole"
+          ],
+          "runtime": null
+        }
+      },
+      {
+        "urn": "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:apigatewayv2/integration:Integration::BlogServiceAPI-rest-api-integration",
+        "custom": true,
+        "id": "blqeo91",
+        "type": "aws:apigatewayv2/integration:Integration",
+        "inputs": {
+          "__defaults": [
+            "connectionType",
+            "passthroughBehavior",
+            "payloadFormatVersion"
+          ],
+          "apiId": "mwdl9mqbaf",
+          "connectionType": "INTERNET",
+          "integrationType": "AWS_PROXY",
+          "integrationUri": "arn:aws:lambda:ap-southeast-2:814810360788:function:dev-blogServiceLambda-ca88640",
+          "passthroughBehavior": "WHEN_NO_MATCH",
+          "payloadFormatVersion": "1.0"
+        },
+        "outputs": {
+          "apiId": "mwdl9mqbaf",
+          "connectionId": "",
+          "connectionType": "INTERNET",
+          "contentHandlingStrategy": "",
+          "credentialsArn": "",
+          "description": "",
+          "id": "blqeo91",
+          "integrationMethod": "POST",
+          "integrationResponseSelectionExpression": "",
+          "integrationSubtype": "",
+          "integrationType": "AWS_PROXY",
+          "integrationUri": "arn:aws:lambda:ap-southeast-2:814810360788:function:dev-blogServiceLambda-ca88640",
+          "passthroughBehavior": "",
+          "payloadFormatVersion": "1.0",
+          "requestParameters": {},
+          "requestTemplates": {},
+          "responseParameters": [],
+          "templateSelectionExpression": "",
+          "timeoutMilliseconds": 30000,
+          "tlsConfig": null
+        },
+        "parent": "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI::BlogServiceAPI",
+        "dependencies": [
+          "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:apigatewayv2/api:Api::BlogServiceAPI-rest-api",
+          "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:lambda/function:Function::dev-blogServiceLambda"
+        ],
+        "provider": "urn:pulumi:dev::blog-service-api::pulumi:providers:aws::default_4_33_0::9e3c7042-4346-4a31-b14a-8e925ab38a28",
+        "propertyDependencies": {
+          "apiId": [
+            "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:apigatewayv2/api:Api::BlogServiceAPI-rest-api"
+          ],
+          "integrationType": null,
+          "integrationUri": [
+            "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:lambda/function:Function::dev-blogServiceLambda"
+          ]
+        },
+        "sequenceNumber": 1
+      },
+      {
+        "urn": "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:lambda/permission:Permission::dev-lambdaPermission",
+        "custom": true,
+        "id": "dev-lambdaPermission-8f41208",
+        "type": "aws:lambda/permission:Permission",
+        "inputs": {
+          "__defaults": ["statementId"],
+          "action": "lambda:InvokeFunction",
+          "function": "dev-blogServiceLambda-ca88640",
+          "principal": "apigateway.amazonaws.com",
+          "sourceArn": "arn:aws:execute-api:ap-southeast-2:814810360788:mwdl9mqbaf/*/*",
+          "statementId": "dev-lambdaPermission-8f41208"
+        },
+        "outputs": {
+          "action": "lambda:InvokeFunction",
+          "function": "dev-blogServiceLambda-ca88640",
+          "id": "dev-lambdaPermission-8f41208",
+          "principal": "apigateway.amazonaws.com",
+          "qualifier": "",
+          "sourceArn": "arn:aws:execute-api:ap-southeast-2:814810360788:mwdl9mqbaf/*/*",
+          "statementId": "dev-lambdaPermission-8f41208"
+        },
+        "parent": "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI::BlogServiceAPI",
+        "dependencies": [
+          "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:apigatewayv2/api:Api::BlogServiceAPI-rest-api",
+          "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:lambda/function:Function::dev-blogServiceLambda"
+        ],
+        "provider": "urn:pulumi:dev::blog-service-api::pulumi:providers:aws::default_4_33_0::9e3c7042-4346-4a31-b14a-8e925ab38a28",
+        "propertyDependencies": {
+          "action": null,
+          "function": [
+            "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:lambda/function:Function::dev-blogServiceLambda"
+          ],
+          "principal": null,
+          "sourceArn": [
+            "urn:pulumi:dev::blog-service-api::blog-service-infrastructure:blogServiceAPI$aws:apigatewayv2/api:Api::BlogServiceAPI-rest-api"
+          ]
+        },
+        "sequenceNumber": -1
+      }
+    ],
+    "pending_operations": []
+  }
+}
